@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$VICO - Vibe Coding is all you need!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vico-bg: #a1e2f8;
+            --vico-text: #3aa8b6;
+            --vico-neon: #00f6ff;
+            --vico-dark: #070b14;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        
+        body {
+            background: var(--vico-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(161, 226, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 246, 255, 0.1) 0%, transparent 50%);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 246, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 246, 255, 0.05) 1px, transparent 1px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .corner-decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+        }
+
+        .top-left {
+            top: 0;
+            left: 0;
+            border-top: 2px solid rgba(0, 246, 255, 0.3);
+            border-left: 2px solid rgba(0, 246, 255, 0.3);
+            border-top-left-radius: 20px;
+        }
+
+        .top-right {
+            top: 0;
+            right: 0;
+            border-top: 2px solid rgba(0, 246, 255, 0.3);
+            border-right: 2px solid rgba(0, 246, 255, 0.3);
+            border-top-right-radius: 20px;
+        }
+
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom: 2px solid rgba(0, 246, 255, 0.3);
+            border-left: 2px solid rgba(0, 246, 255, 0.3);
+            border-bottom-left-radius: 20px;
+        }
+
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid rgba(0, 246, 255, 0.3);
+            border-right: 2px solid rgba(0, 246, 255, 0.3);
+            border-bottom-right-radius: 20px;
+        }
+
+        .circle-decoration {
+            position: absolute;
+            border: 2px solid rgba(0, 246, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            right: -150px;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--vico-neon);
+            animation: blink 1s infinite;
+        }
+
+        .terminal {
+            background: rgba(7, 11, 20, 0.7);
+            border: 1px solid rgba(0, 246, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 246, 255, 0.1),
+                inset 0 0 32px 0 rgba(0, 246, 255, 0.05);
+            backdrop-filter: blur(8px);
+            padding: 24px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .glass-card {
+            background: rgba(7, 11, 20, 0.7);
+            border: 1px solid rgba(0, 246, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 246, 255, 0.1),
+                inset 0 0 32px 0 rgba(0, 246, 255, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        .neon-text {
+            color: var(--vico-neon);
+            text-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            letter-spacing: -1px;
+        }
+
+        .neon-border {
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.2);
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        button, input, a {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            letter-spacing: -0.5px;
+        }
+
+        h1, h2 {
+            letter-spacing: -2px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-white relative overflow-x-hidden">
+    <div class="grid-bg"></div>
+    <div id="particles-js"></div>
+    
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    
+    <div class="circle-decoration circle-1"></div>
+    <div class="circle-decoration circle-2"></div>
+
+    <h1 class="text-6xl font-bold mb-4 neon-text float-animation">$VICO</h1>
+    <p class="text-xl mb-5 text-[#00f6ff]/80 text-center tracking-wider animate-fade-in">
+        Vibe Coding is all you need!
+    </p>
+    
+    <div class="terminal mb-5 overflow-y-auto" id="terminal">
+        <div id="terminal-content" class="text-[#00f6ff]"></div>
+        <span class="cursor"></span>
+    </div>
+    
+    <div class="glass-card p-8 mb-10 w-full max-w-md sm:max-w-2xl">
+        <div class="flex items-center mb-6">
+            <input type="text" value="0x46ddc776226a32289794680c3e56cf6e7d4d4444" id="address" readonly 
+                class="bg-[#070b14]/50 text-[#00f6ff] p-3 rounded-xl flex-grow font-mono text-sm sm:text-base overflow-x-auto neon-border" 
+                onclick="copyToClipboard()">
+            <button onclick="copyToClipboard()" 
+                class="ml-2 bg-[#00f6ff]/10 hover:bg-[#00f6ff]/20 text-[#00f6ff] px-6 py-3 rounded-xl transition-all duration-300 neon-border">
+                Copy
+            </button>
+        </div>
+        <div id="copy-message" class="text-[#00f6ff] text-center mt-2 mb-8 opacity-0 transition-opacity duration-300"></div>
+        
+        <h2 class="text-2xl font-bold mb-6 text-center neon-text">Buy $VICO</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="https://universalx.app/trade?assetId=56_0x46DDc776226a32289794680c3E56cF6e7D4d4444" target="_blank" 
+                class="bg-[#00f6ff]/10 hover:bg-[#00f6ff]/20 text-[#00f6ff] p-4 rounded-xl text-center transition-all duration-300 neon-border">
+                UniversalX
+            </a>
+            <a href="https://ave.ai/token/0x46ddc776226a32289794680c3e56cf6e7d4d4444-bsc" target="_blank" 
+                class="bg-[#00f6ff]/10 hover:bg-[#00f6ff]/20 text-[#00f6ff] p-4 rounded-xl text-center transition-all duration-300 neon-border">
+                Ave.ai
+            </a>
+            <a href="https://pancakeswap.finance/swap?inputCurrency=0xf2c88757f8d03634671208935974B60a2a28Bdb3&outputCurrency=0x46ddc776226a32289794680c3e56cf6e7d4d4444&chain=bnb" target="_blank" 
+                class="bg-[#00f6ff]/10 hover:bg-[#00f6ff]/20 text-[#00f6ff] p-4 rounded-xl text-center transition-all duration-300 neon-border">
+                PancakeSwap
+            </a>
+            <a href="https://launch.myshell.ai/shell-launchpad/0x46ddc776226a32289794680c3e56cf6e7d4d4444" target="_blank" 
+                class="bg-[#00f6ff]/10 hover:bg-[#00f6ff]/20 text-[#00f6ff] p-4 rounded-xl text-center transition-all duration-300 neon-border">
+                MyShell
+            </a>
+        </div>
+    </div>
+    
+    <div class="flex space-x-8 mt-4">
+        <a href="https://x.com/vicoagent" target="_blank" class="text-[#00f6ff] hover:text-[#00f6ff]/80 transition-all duration-300">
+            <i class="fa-brands fa-x-twitter text-3xl"></i>
+        </a>
+        <a href="https://vicoagent.github.io" target="_blank" class="text-[#00f6ff] hover:text-[#00f6ff]/80 transition-all duration-300">
+            <i class="fa-brands fa-github text-3xl"></i>
+        </a>
+        <a href="https://www.twitch.tv/vicoagent" target="_blank" class="text-[#00f6ff] hover:text-[#00f6ff]/80 transition-all duration-300">
+            <i class="fa-brands fa-twitch text-3xl"></i>
+        </a>
+    </div>
+    
+    <script>
+        const text = `I want a MCP server supporting OAuth. It should allow me to access my todo items in Todoist.
+
+I need the version control tuned for the vibe coders as an A2A type solution.
+
+Can you help me build a DeFAI agent?`;
+
+        let i = 0;
+        const terminalContent = document.getElementById('terminal-content');
+        
+        function typeWriter() {
+            if (i < text.length) {
+                if (text.charAt(i) === '\n') {
+                    terminalContent.innerHTML += '<br>';
+                } else {
+                    terminalContent.innerHTML += text.charAt(i);
+                }
+                i++;
+                setTimeout(typeWriter, Math.random() * 50 + 30);
+            } else {
+                setTimeout(() => {
+                    terminalContent.innerHTML = '';
+                    i = 0;
+                    typeWriter();
+                }, 2000);
+            }
+        }
+        
+        function copyToClipboard() {
+            const addressElement = document.getElementById('address');
+            const copyMessage = document.getElementById('copy-message');
+            
+            addressElement.select();
+            addressElement.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(addressElement.value)
+                .then(() => {
+                    copyMessage.textContent = "Address copied!";
+                    copyMessage.classList.remove("opacity-0");
+                    copyMessage.classList.add("opacity-100");
+                    
+                    setTimeout(() => {
+                        copyMessage.classList.remove("opacity-100");
+                        copyMessage.classList.add("opacity-0");
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        }
+        
+        window.onload = typeWriter;
+        
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 50,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#00f6ff'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.2,
+                    random: true
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00f6ff',
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.3
+                        }
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
